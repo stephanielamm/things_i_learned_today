@@ -1,0 +1,95 @@
+
+<html>
+<!-- March 26-28th: How to make a scrolling y axis with a fixed x axis
+Full code: https://github.com/DallasMorningNews/embed_sales_tax_timeline/blob/master/src/js/scripts.js 
+
+
+First, Create an xaxis div in your html. It goes inside embed_content but under chart_container. Like so: -->
+
+<div id="embed__container">
+     <div class="embed__chatter">
+       <h4>Dallas-Fort Worth cities using sales tax for economic development</h4>
+       <p>Jim Gandy, who played a major role in Frisco’s rise, said the ability for Texas cities to use sales tax to fund business recruitment, “changed the economic landscape of Texas forever.” This is a timeline of when cities in the Dallas-Fort Worth metro area opted to use sales tax money for Type A economic development corporations.</p>
+     </div>
+     <div class="embed__content">
+       <div class="chart-container">
+         <div id="chart"></div>
+       </div>
+       <div id="xaxis"></div>
+       <p class="source">Source: Data from Texas Comptroller's Office</p>
+       <p class="credit">Stephanie Lamm / DMN</p>
+     </div>
+   </div>
+</html>
+
+<script>
+// Then, declare your xAxis variable and create an svg element for your xAxis variable. Connect it to the xaxis div. In this example, the width is based on divWidth, which was set earlier. 
+// hint: (var divWidth = d3.select('#chart').node().getBoundingClientRect().width;)
+
+// declare new x axis
+var xAxis = d3.axisBottom()
+    .scale(x)
+   .ticks(10);
+
+// new x axis svg
+var xAxisSvg = d3.select('#xaxis').append("svg")
+   .attr("width", divWidth)
+   .attr("height", 20)
+ .append("g")
+
+// This code has an if/else statement that adjusts the number of tick marks on mobile. Give it the same margin.left you used to create the full chart svg, that way it starts in the same place. This code also has a tickFormat(d3.timeFormat('%y')), which sets the x axis to display two-digit years. 
+
+// hint: margin.left first shows up when setting the chart svg here: 
+// var svg = d3.select('#chart').append("svg")
+//         .attr('width', divWidth - 10)
+//         .attr('height', 1500),
+//       margin = {top: 10, right: 10, bottom: 0, left: 78},
+//       width = +svg.attr("width") - margin.left - margin.right,
+//       height = +svg.attr("height") - margin.top - margin.bottom,
+//       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//  x axis with an if else to size for mobile
+if (divWidth < 400) {
+  xAxisSvg.append("g")
+    .attr("transform", "translate(" + margin.left + ", 0)")
+    .call(d3.axisBottom(x)
+    .tickFormat(d3.timeFormat('%y'))
+    .tickSizeOuter(0)
+    .ticks(6));
+  } else {
+    xAxisSvg.append("g")
+    .attr("transform", "translate(" + margin.left + ", 0)")
+    .call(d3.axisBottom(x)
+    .tickFormat(d3.timeFormat('%y'))
+    .tickSizeOuter(0)
+    .ticks(10));
+      }
+</script>
+
+
+<style>
+/* 
+In your css, set the margins and position of the xaxis svg. In this case, we had to adjust the z-index so it would display on top of the scrolling graphic behind it. Set the chart container to overflow-y scroll and give it a fixed height. You might need to set it to a different height on mobile.
+*/
+
+.chart-container {
+  height: 500px;
+  overflow-y: scroll;
+  font-family: $sans;
+}
+
+#xaxis {
+  margin-top: -2px;
+  background-color: $black245;
+  position: relative;
+  z-index: 5;
+}
+
+@media only screen and (max-width: 400px) {
+  .chart-container {
+    height: 300px;
+    overflow-y: scroll;
+   font-family: $sans;
+  }
+}
+</style>
