@@ -131,24 +131,27 @@ def transform():
 
     return formatted_evaluations
 
-
+# if__name == '__main__' means that if you just type python filename.py, it'll run this function.
 if __name__ == '__main__':
     separated_data = transform()
 
+    # https://docs.python.org/2/library/csv.html writes a new file with the followingheader names 
     with open('clean_fields.csv', 'w') as csvfile:
         fieldnames = ['evaluation_id', 'company_id', 'city', 'begin_eval_date', 'end_eval_date', 'eval_type', 'ip_id' , 'violation_metadata']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-
+        
+        # split by whitespace if there are two or more characters of whitespace. Breaks it for object 0 starting at character 23. 
         for d in separated_data:
             metadata = re.split(r'\s{2,}', d[0][23:])
-
+            
+            # .pop removes or returns the last item in a list https://docs.python.org/3.4/tutorial/datastructures.html 
             if metadata[0] == '':
                 metadata.pop(0)
             writer.writerow({
-                'evaluation_id': d[0][:8],
-                'company_id': d[0][8:23].strip(),
-                'city': metadata[0].strip(),
+                'evaluation_id': d[0][:8], #splits on specified characters
+                'company_id': d[0][8:23].strip(), 
+                'city': metadata[0].strip(), #first set of whitespace-separated characters
                 'begin_eval_date': metadata[1],
                 'end_eval_date': metadata[2],
                 'eval_type': metadata[3],
