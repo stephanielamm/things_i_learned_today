@@ -1,3 +1,8 @@
+# This script (written mostly by Allan and Ariana) breaks up a fixed width text file into organized chunchs of data 
+# The bottom functions spit out a .csv with header rows and data split up according to whitespace and character numbers
+# 
+#
+#
 # Imports from python.  # NOQA
 import re
 import csv
@@ -123,8 +128,6 @@ def transform():
     raw_evaluations = get_evaluations(limited_lines)
     formatted_evaluations = format_evaluations(raw_evaluations)
 
-    # TODO: Split strings for evaluations into a dict (using regex and groups),
-    # and do the same for violations as well.
 
     return formatted_evaluations
 
