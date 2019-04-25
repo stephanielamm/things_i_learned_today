@@ -1,0 +1,19 @@
+copied from Layne Smith
+
+In terminal navigate to project and run npm install -S mapbox-gl
+
+Insert import mapboxgl from 'mapbox-gl'; at top of scripts.js
+
+In scripts.js initialize map with
+
+// GET MAP STARTED
+const map = new mapboxgl.Map({
+  container: 'map', // Div ID, where to put it in DOM. <div id="map"></div> for example
+  style: 'https://maps.dallasnews.com/styles.json', // link to custom styles
+  maxZoom: 14,
+  center: [-96.916519, 32.928455],
+  zoom: 8.5,
+});
+Add <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' /> to end of in base.html
+
+Make sure your map div has a width and height defined in CSS.
