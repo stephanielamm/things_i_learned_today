@@ -1,0 +1,13 @@
+```sudo chown -R $(whoami) ~/.npm```
+- `sudo` (because only `sudo` can undo an old `sudo`)
+- `chown` - change ownership
+- `-R` - recursively
+- `$(whoami)` - your username
+
+Or upgrade node 
+nvm install lts/dubnium
+
+
+nvm use 
+
+Express is framework for building web apps in node
